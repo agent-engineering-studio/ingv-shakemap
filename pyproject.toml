@@ -1,7 +1,7 @@
 [project]
-name = "package-name"
+name = "ingv-shakemap"
 version = "0.1.0"
-description = "PACKAGE_DESCRIPTION"
+description = "Async Python client for INGV earthquakes and ShakeMap grids: FDSN events, grid.xml parsing, ground shaking (PGA, PGV, MMI) at any point"
 readme = "README.md"
 requires-python = ">=3.12"
 license = "Apache-2.0"
@@ -18,12 +18,15 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Typing :: Typed",
 ]
-dependencies = []
+dependencies = [
+    "httpx>=0.27",
+    "numpy>=2.0",
+]
 
 [project.urls]
-Homepage = "https://github.com/agent-engineering-studio/package-name"
-Issues = "https://github.com/agent-engineering-studio/package-name/issues"
-Changelog = "https://github.com/agent-engineering-studio/package-name/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/agent-engineering-studio/ingv-shakemap"
+Issues = "https://github.com/agent-engineering-studio/ingv-shakemap/issues"
+Changelog = "https://github.com/agent-engineering-studio/ingv-shakemap/blob/main/CHANGELOG.md"
 
 [build-system]
 requires = ["uv_build>=0.13.6,<0.14"]
@@ -33,8 +36,15 @@ build-backend = "uv_build"
 dev = [
     "mypy>=1.13",
     "pytest>=8.3",
+    "pytest-asyncio>=0.24",
     "pytest-cov>=6.0",
     "ruff>=0.8",
+]
+
+docs = [
+    "mkdocs-material>=9.5",
+    "mkdocstrings[python]>=0.26",
+    "matplotlib>=3.8",
 ]
 
 [tool.ruff]
@@ -45,6 +55,7 @@ target-version = "py312"
 select = ["E", "F", "W", "I", "N", "UP", "B", "C4", "SIM", "ARG", "PTH", "RUF"]
 
 [tool.ruff.lint.per-file-ignores]
+"docs/make_images.py" = ["E501"]
 "tests/**" = ["ARG", "B018"]
 
 [tool.mypy]
@@ -57,9 +68,10 @@ warn_redundant_casts = true
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "--strict-markers"
+asyncio_mode = "auto"
 
 [tool.coverage.run]
-source = ["package_name"]
+source = ["ingv_shakemap"]
 
 [tool.coverage.report]
 fail_under = 90
