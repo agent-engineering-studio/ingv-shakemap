@@ -4,7 +4,14 @@ from datetime import UTC, datetime, timedelta, timezone
 
 import pytest
 
-from ingv_shakemap import Event, IngvError, event_query, parse_events, shakemap_grid_url
+from ingv_shakemap import (
+    Event,
+    IngvError,
+    event_query,
+    parse_events,
+    shakemap_grid_url,
+    shakemap_product_url,
+)
 from ingv_shakemap.events import fdsn_time, parse_event
 
 # A feature as the INGV service sent it on 2026-11-04: no top-level id.
@@ -101,3 +108,9 @@ def test_parse_events() -> None:
     assert [e.id for e in events] == ["47606532"]
     with pytest.raises(IngvError, match="FeatureCollection"):
         parse_events({"error": "boom"})
+
+
+def test_product_url() -> None:
+    assert shakemap_product_url(1, "info.json") == (
+        "https://shakemap.ingv.it/data/1/current/products/info.json"
+    )

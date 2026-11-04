@@ -116,13 +116,43 @@ The FDSN event id is the ShakeMap id: the same integer joins the two services.
 
 ## Recipes
 
-**The shaking on many points at once.** `column` gives the whole grid as an
-`(nlat, nlon)` array, north row first; index it yourself for thousands of points:
+**The shaking on many points at once.** `sample` and `sample_g` take arrays
+of positions and answer in one NumPy call: on 100,000 points of a real grid,
+10 ms against 280 ms for a loop over `pga_g`, with the same values. Outside the
+grid you get `NaN`:
 
 ```python
-pga = grid.column("PGA") / 100.0  # percent of g -> g
-west, south, east, north = grid.bbox
+pga = grid.sample_g("PGA", lons, lats)  # nearest point, in g
+pga = grid.sample_g("PGA", lons, lats, method="bilinear")  # interpolated
+pgv = grid.sample("PGV", lons, lats)  # native unit, cm/s
 ```
+
+`column` still gives the whole grid as an `(nlat, nlon)` array, north row first.
+
+**Has the map changed?** `info` reads `info.json`, a few kB, instead of the
+12 MB grid: compare its `version` with the one you stored and download the grid
+only when it grew.
+
+```python
+info = await ingv.info(event_id)
+if info is not None and info.version != stored_version:
+    grid = await ingv.shakemap(event_id)
+```
+
+**How much of the map is measured.** `uncertainty` is the map's standard
+deviation per point (`STDPGA` in ln g): low near the stations, high where the
+map is the ground-motion model alone. `stations` gives the stations themselves,
+what each recorded and what the model predicted there.
+
+```python
+unc = await ingv.uncertainty(event_id)
+sigma = unc.sample("STDPGA", lons, lats)
+stations = await ingv.stations(event_id)
+residuals = [s.pga_g / s.predicted_pga_g for s in stations if s.pga_g and s.predicted_pga_g]
+```
+
+**Only what changed.** `events(..., updated_after=last_run)` asks the catalogue
+for the events created or revised since then (FDSN `updatedafter`).
 
 **Parse in a thread.** A big grid takes about a quarter of a second to parse.
 `IngvClient.shakemap` already runs it in `asyncio.to_thread`; when you parse
@@ -165,28 +195,41 @@ ingv = IngvClient(send=send)
    the 204, so an unreachable catalogue never looks like a quiet week.
 5. **No ShakeMap is a 404, and it is normal.** Small or very recent events
    have none: `shakemap` returns `None`. Any other error raises.
-6. **`automatic` can last.** The maps of the 23 October 2026 sequence still
-   said `map_status="automatic"` twelve days later. Read `map_status` and
-   `process_time` if you need a reviewed map, and fetch it again later.
+6. **`automatic` can last, and the map keeps changing.** The maps of the
+   23 October 2026 sequence still said `map_status="automatic"` twelve days
+   later, and the Mw 5.5's went through four versions, the last one forty hours
+   after the earthquake. A rule like "stable after 24 hours" misses it: compare
+   `info(event_id).version` instead.
 7. **The old URL is dead.** The `/shake4/` prefix answered 404 for every event
    on 19 October 2026; the grid lives under `/data/{id}/current/products/`.
 8. **No top-level id in the GeoJSON.** INGV puts the event id in
    `properties.eventId`, as an integer. `parse_event` reads it from there.
 9. **Times are UTC without an offset**, both ways. The package sends
    `2026-10-23T10:19:15` and gives back aware UTC datetimes.
+10. **In `stationlist.json` a missing value is the string `"null"`.** 263 of the
+    469 stations of the Mw 5.5 have `"pga": "null"`, as text. `parse_stations`
+    reads it as `None`; a plain `float()` would raise, and a check for JSON
+    `null` would let it through.
 
 ## API at a glance
 
 | Name | What it does |
 |---|---|
 | `IngvClient(client=None, *, send=None, retries=3, backoff_s=2.0, timeout_s=60.0)` | async client; retries transport errors, 429 and 5xx |
-| `IngvClient.events(start, end, *, bbox=ITALY, min_magnitude=None, max_depth_km=None, limit=None)` | earthquakes, newest first |
+| `IngvClient.events(start, end, *, bbox=ITALY, min_magnitude=None, max_depth_km=None, limit=None, updated_after=None)` | earthquakes, newest first |
 | `IngvClient.shakemap(event_id)` / `.shakemap_xml(event_id)` | the parsed grid, or the raw bytes; `None` if there is no map |
+| `IngvClient.uncertainty(event_id)` | the map's standard deviation, as a `ShakeGrid` |
+| `IngvClient.info(event_id)` → `ShakeMapInfo` | version, status, history of runs, GMPE, stations, peaks |
+| `IngvClient.stations(event_id)` → `list[Station]` | what each station recorded, and what the model predicted |
+| `IngvClient.product(event_id, name)` | any file of the map's products, raw |
 | `parse_grid(xml)` → `ShakeGrid` | pure parser; raises only `GridError` |
-| `ShakeGrid.pga_g` / `.pgv_cm_s` / `.mmi` / `.value_at` / `.column` / `.bbox` | values at a point, or as arrays |
+| `ShakeGrid.pga_g` / `.pgv_cm_s` / `.mmi` / `.value_at` | values at a point |
+| `ShakeGrid.sample` / `.sample_g` | values at many points, nearest or bilinear |
+| `ShakeGrid.column` / `.bbox` | the whole grid as arrays |
+| `parse_info(json)`, `parse_stations(json)` | pure parsers of `info.json` and `stationlist.json` |
 | `ShakeGrid.event`, `.map_status`, `.version`, `.process_time`, `.fields` | the map's metadata |
 | `parse_events(geojson)` / `parse_event(feature)` → `Event` | pure parsers of the FDSN answer |
-| `event_query(...)`, `shakemap_grid_url(id)` | the requests, without sending them |
+| `event_query(...)`, `shakemap_grid_url(id)`, `shakemap_product_url(id, name)` | the requests, without sending them |
 | `IngvError`, `GridError` | the only exceptions; `GridError` is also a `ValueError` |
 
 The full reference is on the [documentation site](https://agentengineering.it/ingv-shakemap/).

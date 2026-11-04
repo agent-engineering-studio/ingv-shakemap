@@ -60,6 +60,7 @@ nav:
   - API reference:
       - Client: api/client.md
       - ShakeMap grid: api/grid.md
+      - ShakeMap products: api/products.md
       - Events (FDSN): api/events.md
       - Errors: api/errors.md
   - Changelog: changelog.md

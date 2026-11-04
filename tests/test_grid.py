@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 
+import numpy as np
 import pytest
 from conftest import make_grid_xml
 
@@ -92,3 +93,47 @@ def test_unreadable_event_attributes_become_none() -> None:
 def test_offset_timestamps_are_kept() -> None:
     xml = make_grid_xml().replace(b"2026-10-23T10:19:15", b"2026-10-23T10:19:15Z")
     assert parse_grid(xml).event.time == datetime(2026, 10, 23, 10, 19, 15, tzinfo=UTC)
+
+
+def test_sample_nearest_matches_value_at_point_by_point() -> None:
+    g = parse_grid(make_grid_xml(nlon=6, nlat=5))
+    rng = np.random.default_rng(0)
+    lons = rng.uniform(13.99, 14.06, 400)
+    lats = rng.uniform(38.95, 39.01, 400)
+    got = g.sample("PGA", lons, lats)
+    for lon, lat, v in zip(lons, lats, got, strict=True):
+        expected = g.value_at("PGA", float(lon), float(lat))
+        assert (np.isnan(v) and expected is None) or v == expected
+
+
+def test_sample_ties_round_half_to_even_like_round() -> None:
+    g = parse_grid(make_grid_xml(step=0.5, lon_min=0.0, lat_max=10.0))
+    # Half a step east of column 0 and of column 1: round() gives 0 and 2.
+    assert list(g.sample("PGV", [0.25, 0.75], [10.0, 10.0])) == [0, 2]
+    assert [g.pgv_cm_s(x, 10.0) for x in (0.25, 0.75)] == [0, 2]
+
+
+def test_sample_bilinear() -> None:
+    g = parse_grid(make_grid_xml())
+    # PGA = 10*row + col is linear, so bilinear interpolation is exact.
+    got = g.sample("PGA", [14.005, 14.03, 14.0], [38.995, 38.98, 39.0], method="bilinear")
+    assert got == pytest.approx([5.5, 23.0, 0.0])
+    outside = g.sample("PGA", [13.9999, 14.031, 14.01], [39.0, 38.98, 39.001], method="bilinear")
+    assert np.isnan(outside).all()
+
+
+def test_sample_broadcasts_and_converts_to_g() -> None:
+    g = parse_grid(make_grid_xml())
+    assert g.sample_g("PGA", np.array([[14.0, 14.03]]), 38.98).tolist() == [[0.2, 0.23]]
+    assert np.isnan(g.sample_g("PGA", [20.0], [39.0])).all()
+    assert parse_grid(make_grid_xml(pga_units="g")).sample_g("PGA", [14.01], [39.0])[0] == 1
+    with pytest.raises(GridError, match="percent of g"):
+        g.sample_g("PGV", [14.0], [39.0])
+
+
+def test_sample_refuses_unknown_method_and_column() -> None:
+    g = parse_grid(make_grid_xml())
+    with pytest.raises(GridError, match="unknown method"):
+        g.sample("PGA", [14.0], [39.0], method="cubic")  # type: ignore[arg-type]
+    with pytest.raises(GridError, match="no 'PSA10' column"):
+        g.sample("PSA10", [14.0], [39.0])

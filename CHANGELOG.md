@@ -6,6 +6,24 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-04
+
+### Added
+
+- `ShakeGrid.sample` and `ShakeGrid.sample_g`: values at many positions in one
+  NumPy call, `nearest` (the same values as `value_at`, ties to even like
+  `round`) or `bilinear`; `NaN` outside the grid. On 100,000 points of a real
+  grid: 10 ms against 280 ms for a loop, identical to Limen's parser.
+- `IngvClient.info` / `parse_info` → `ShakeMapInfo`: the map's `info.json`
+  (version, status, history of runs, GMPE, stations, peaks), a few kB to tell
+  whether the 12 MB grid changed.
+- `IngvClient.stations` / `parse_stations` → `Station`: the stations of
+  `stationlist.json`, PGA in g, with the model's prediction. The string
+  `"null"` INGV writes for a missing value is read as `None`.
+- `IngvClient.uncertainty`: `uncertainty.xml` as a `ShakeGrid` (`STDPGA` in ln g).
+- `IngvClient.product` and `shakemap_product_url`: any file of the map's products.
+- `updated_after` on `events` and `event_query` (FDSN `updatedafter`).
+
 ## [0.1.0] - 2026-11-04
 
 ### Added
