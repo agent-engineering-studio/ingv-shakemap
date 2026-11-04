@@ -1,0 +1,253 @@
+{
+ "multigmpe": {
+  "PGA": {
+   "gmpes": [
+    {
+     "gmpes": [
+      "[BindiEtAl2011]"
+     ],
+     "weights": [
+      1.0
+     ],
+     "name": "active_crustal_italy3"
+    }
+   ],
+   "weights": [
+    1.0
+   ],
+   "name": "gmpe_47606532_custom"
+  },
+  "PGV": {
+   "gmpes": [
+    {
+     "gmpes": [
+      "[BindiEtAl2011]"
+     ],
+     "weights": [
+      1.0
+     ],
+     "name": "active_crustal_italy3"
+    }
+   ],
+   "weights": [
+    1.0
+   ],
+   "name": "gmpe_47606532_custom"
+  }
+ },
+ "input": {
+  "event_information": {
+   "depth": "8.8",
+   "event_id": "47606532",
+   "eventsource": "ToDo",
+   "netid": "ToDo",
+   "eventsourcecode": "47606532",
+   "id": "47606532",
+   "productcode": "47606532",
+   "productsource": "IV",
+   "producttype": "shakemap",
+   "event_ref": "ToDo",
+   "fault_ref": "Origin",
+   "intensity_observations": "0",
+   "latitude": "38.7938",
+   "longitude": "14.1717",
+   "location": "Tirreno Meridionale [Mare]",
+   "magnitude": "5.46",
+   "origin_time": "2026-10-23T10:19:15.000000Z",
+   "seismic_stations": "469",
+   "src_mech": "ALL",
+   "event_description": "Tirreno Meridionale [Mare]",
+   "event_type": "ACTUAL",
+   "origin_reviewed": "unknown"
+  }
+ },
+ "strec": {
+  "TectonicRegion": "Subduction",
+  "FocalMechanism": "ALL",
+  "TensorType": "composite",
+  "TensorSource": "composite",
+  "KaganAngle": 46.57265246501265,
+  "CompositeVariability": 1.180834239837352,
+  "NComposite": 2,
+  "DistanceToStable": 1012.4277620858892,
+  "DistanceToActive": 93.36208575371785,
+  "DistanceToSubduction": 0.0,
+  "DistanceToVolcanic": 1490.8608276780667,
+  "Oceanic": false,
+  "DistanceToOceanic": 2077.53093257181,
+  "DistanceToContinental": 0.0,
+  "SlabModelRegion": "Calabria",
+  "SlabModelDepth": 291.5317687988281,
+  "SlabModelDepthUncertainty": 11.989420890808105,
+  "SlabModelDip": 63.45636749267578,
+  "SlabModelStrike": 241.9876708984375,
+  "SlabModelMaximumDepth": 45,
+  "ProbabilityActive": 0.06224722504372854,
+  "ProbabilityStable": 0.0,
+  "ProbabilitySubduction": 0.9377527749562714,
+  "ProbabilityVolcanic": 0.0,
+  "ProbabilitySubductionCrustal": 0.8557481551437393,
+  "ProbabilitySubductionInterface": 0.08200461981253217,
+  "ProbabilitySubductionIntraslab": 0.0,
+  "ProbabilityActiveDeep": 0.0,
+  "ProbabilityVolcanicShallow": 0.0,
+  "ProbabilityActiveShallow": 0.06224722504372854,
+  "DistanceToBackarc": 8392.422841788608,
+  "ProbabilityStableShallow": 0.0
+ },
+ "output": {
+  "ground_motions": {
+   "SA(0.3)": {
+    "units": "g",
+    "bias": "-0.016",
+    "max_grid": "0.542",
+    "max": "0.067"
+   },
+   "PGA": {
+    "units": "g",
+    "bias": "-0.019",
+    "max_grid": "0.33",
+    "max": "0.057"
+   },
+   "SA(3.0)": {
+    "units": "g",
+    "bias": "0.055",
+    "max_grid": "0.02",
+    "max": "0.007"
+   },
+   "SA(1.0)": {
+    "units": "g",
+    "bias": "-0.024",
+    "max_grid": "0.14",
+    "max": "0.02"
+   },
+   "MMI": {
+    "units": "intensity",
+    "bias": "-0.022",
+    "max_grid": "7.333",
+    "max": "4.592"
+   },
+   "PGV": {
+    "units": "cms",
+    "bias": "-0.039",
+    "max_grid": "13.441",
+    "max": "1.313"
+   }
+  },
+  "map_information": {
+   "grid_points": {
+    "longitude": "542",
+    "latitude": "362",
+    "units": ""
+   },
+   "grid_spacing": {
+    "longitude": "0.0083333",
+    "latitude": "0.0083333",
+    "units": "degrees"
+   },
+   "grid_span": {
+    "longitude": "4.508",
+    "latitude": "3.008",
+    "units": "degrees"
+   },
+   "min": {
+    "longitude": "11.917",
+    "latitude": "37.292",
+    "units": "degrees"
+   },
+   "max": {
+    "longitude": "16.425",
+    "latitude": "40.3",
+    "units": "degrees"
+   }
+  },
+  "uncertainty": {
+   "grade": "--",
+   "mean_uncertainty_ratio": null,
+   "total_flagged_mi": "0",
+   "total_flagged_pgm": "299"
+  }
+ },
+ "processing": {
+  "ground_motion_modules": {
+   "gmpe": {
+    "module": "gmpe_47606532_custom",
+    "reference": ""
+   },
+   "ipe": {
+    "module": "VirtualIPE",
+    "reference": ""
+   },
+   "gmice": {
+    "module": "OFM22",
+    "reference": ""
+   },
+   "ccf": {
+    "module": "LothBaker2013",
+    "reference": ""
+   },
+   "basin_correction": {
+    "module": "None",
+    "reference": ""
+   },
+   "directivity": {
+    "module": "None",
+    "reference": ""
+   }
+  },
+  "model_flags": {
+   "no_macroseismic": false,
+   "no_seismic": false,
+   "no_rupture": false
+  },
+  "miscellaneous": {
+   "bias_max_dsigma": "1.5",
+   "bias_max_mag": "7.7",
+   "bias_max_range": "120.0",
+   "median_dist": "False",
+   "do_outliers": true,
+   "outlier_deviation_level": "3.0",
+   "outlier_max_mag": "7.0"
+  },
+  "shakemap_versions": {
+   "shakemap_revision": "0.1.dev1+g9fa06927c",
+   "shakemap_revision_id": "0.1.dev1+g9fa06927c",
+   "shakemap_modules_revision": "1.1.13",
+   "esi_shakelib_revision": "1.1.13",
+   "process_time": "2026-10-25T02:06:23Z",
+   "map_version": 4,
+   "map_comment": "SM4 run",
+   "map_data_history": [
+    [
+     "2026-10-23T11:48:22Z",
+     "IV",
+     1,
+     "SM4 run"
+    ],
+    [
+     "2026-10-23T12:03:08Z",
+     "IV",
+     2,
+     "SM4 run"
+    ],
+    [
+     "2026-10-23T12:25:16Z",
+     "IV",
+     3,
+     "SM4 run"
+    ],
+    [
+     "2026-10-25T02:05:54Z",
+     "IV",
+     4,
+     "SM4 run"
+    ]
+   ],
+   "map_status": "automatic"
+  },
+  "site_response": {
+   "vs30default": "760.0",
+   "site_correction": "GMPE native"
+  }
+ }
+}

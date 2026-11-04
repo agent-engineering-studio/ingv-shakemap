@@ -1,6 +1,6 @@
 [project]
 name = "ingv-shakemap"
-version = "0.1.0"
+version = "0.2.0"
 description = "Async Python client for INGV earthquakes and ShakeMap grids: FDSN events, grid.xml parsing, ground shaking (PGA, PGV, MMI) at any point"
 readme = "README.md"
 requires-python = ">=3.12"

@@ -61,8 +61,14 @@ def event_query(
     min_magnitude: float | None = None,
     max_depth_km: float | None = None,
     limit: int | None = None,
+    updated_after: datetime | None = None,
 ) -> dict[str, str]:
-    """Query parameters for the events in ``bbox`` between ``start`` and ``end``, newest first."""
+    """Query parameters for the events in ``bbox`` between ``start`` and ``end``, newest first.
+
+    ``updated_after`` keeps only the events created or revised after that
+    instant (the FDSN ``updatedafter``): a sync that runs every hour asks for
+    what changed since the last run instead of the whole window again.
+    """
     if end <= start:
         raise IngvError("end must come after start")
     west, south, east, north = bbox
@@ -82,16 +88,24 @@ def event_query(
         params["maxdepth"] = str(max_depth_km)
     if limit is not None:
         params["limit"] = str(limit)
+    if updated_after is not None:
+        params["updatedafter"] = fdsn_time(updated_after)
     return params
 
 
-def shakemap_grid_url(event_id: str | int, *, base: str = SHAKEMAP_BASE) -> str:
-    """URL of the current ``grid.xml`` of an event.
+def shakemap_product_url(event_id: str | int, product: str, *, base: str = SHAKEMAP_BASE) -> str:
+    """URL of one product of the current ShakeMap of an event.
 
-    The older ``/shake4/`` prefix answers 404 for every event (checked on
-    19 October 2026).
+    ``product`` is a file name: ``grid.xml``, ``uncertainty.xml``,
+    ``info.json``, ``stationlist.json``. The older ``/shake4/`` prefix answers
+    404 for every event (checked on 19 October 2026).
     """
-    return f"{base}/{event_id}/current/products/grid.xml"
+    return f"{base}/{event_id}/current/products/{product}"
+
+
+def shakemap_grid_url(event_id: str | int, *, base: str = SHAKEMAP_BASE) -> str:
+    """URL of the current ``grid.xml`` of an event."""
+    return shakemap_product_url(event_id, "grid.xml", base=base)
 
 
 def parse_event(feature: dict[str, Any]) -> Event | None:
@@ -143,4 +157,5 @@ __all__ = [
     "parse_event",
     "parse_events",
     "shakemap_grid_url",
+    "shakemap_product_url",
 ]

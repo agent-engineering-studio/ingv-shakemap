@@ -1,0 +1,759 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "id": "IT.CFL",
+   "properties": {
+    "code": "CFL",
+    "name": "CFL",
+    "refid": null,
+    "instrumentType": "UNK",
+    "source": "Italian Strong Motion Network",
+    "network": "IT",
+    "commType": "UNK",
+    "location": "",
+    "intensity": 3.3,
+    "intensity_flag": "",
+    "intensity_stddev": 0.15,
+    "pga": 0.1948,
+    "pgv": 0.2478,
+    "distance": 85.595,
+    "elev": null,
+    "vs30": 523.86,
+    "channels": [
+     {
+      "name": "--.HNE",
+      "amplitudes": [
+       {
+        "name": "pga",
+        "value": 0.1948,
+        "units": "%g",
+        "flag": "0",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "pgv",
+        "value": 0.207,
+        "units": "cm/s",
+        "flag": "0",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "sa(0.3)",
+        "value": 0.4141,
+        "units": "%g",
+        "flag": "0",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "sa(1.0)",
+        "value": 0.3395,
+        "units": "%g",
+        "flag": "0",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "sa(3.0)",
+        "value": 0.064,
+        "units": "%g",
+        "flag": "0",
+        "ln_sigma": 0.0
+       }
+      ]
+     },
+     {
+      "name": "--.HNN",
+      "amplitudes": [
+       {
+        "name": "pga",
+        "value": 0.1781,
+        "units": "%g",
+        "flag": "0",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "pgv",
+        "value": 0.2478,
+        "units": "cm/s",
+        "flag": "0",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "sa(0.3)",
+        "value": 0.4685,
+        "units": "%g",
+        "flag": "0",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "sa(1.0)",
+        "value": 0.3758,
+        "units": "%g",
+        "flag": "0",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "sa(3.0)",
+        "value": 0.1061,
+        "units": "%g",
+        "flag": "0",
+        "ln_sigma": 0.0
+       }
+      ]
+     },
+     {
+      "name": "--.HNZ",
+      "amplitudes": [
+       {
+        "name": "pga",
+        "value": 0.1603,
+        "units": "%g",
+        "flag": "0",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "pgv",
+        "value": 0.1506,
+        "units": "cm/s",
+        "flag": "0",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "sa(0.3)",
+        "value": 0.4188,
+        "units": "%g",
+        "flag": "0",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "sa(1.0)",
+        "value": 0.3294,
+        "units": "%g",
+        "flag": "0",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "sa(3.0)",
+        "value": 0.0433,
+        "units": "%g",
+        "flag": "0",
+        "ln_sigma": 0.0
+       }
+      ]
+     }
+    ],
+    "station_type": "seismic",
+    "nresp": "null",
+    "predictions": [
+     {
+      "name": "sa(0.3)",
+      "value": 1.6529,
+      "value_rock": 1.8249,
+      "value_soil": 1.6529,
+      "units": "%g",
+      "ln_tau": 0.5023,
+      "ln_phi": 0.6822,
+      "ln_sigma": 0.8472,
+      "ln_sigma_rock": 0.8477,
+      "ln_sigma_soil": 0.8477,
+      "ln_bias": -0.0169,
+      "ln_bias_sigma": 0.0664
+     },
+     {
+      "name": "pga",
+      "value": 0.7096,
+      "value_rock": 0.8492,
+      "value_soil": 0.7096,
+      "units": "%g",
+      "ln_tau": 0.3964,
+      "ln_phi": 0.6784,
+      "ln_sigma": 0.7857,
+      "ln_sigma_rock": 0.7853,
+      "ln_sigma_soil": 0.7853,
+      "ln_bias": -0.0223,
+      "ln_bias_sigma": 0.0732
+     },
+     {
+      "name": "sa(3.0)",
+      "value": 0.0804,
+      "value_rock": 0.102,
+      "value_soil": 0.0804,
+      "units": "%g",
+      "ln_tau": 0.4643,
+      "ln_phi": 0.722,
+      "ln_sigma": 0.8584,
+      "ln_sigma_rock": 0.8575,
+      "ln_sigma_soil": 0.8575,
+      "ln_bias": 0.0034,
+      "ln_bias_sigma": 0.1104
+     },
+     {
+      "name": "sa(1.0)",
+      "value": 0.6056,
+      "value_rock": 0.782,
+      "value_soil": 0.6056,
+      "units": "%g",
+      "ln_tau": 0.5113,
+      "ln_phi": 0.6669,
+      "ln_sigma": 0.8404,
+      "ln_sigma_rock": 0.8411,
+      "ln_sigma_soil": 0.8411,
+      "ln_bias": -0.0062,
+      "ln_bias_sigma": 0.0884
+     },
+     {
+      "name": "pgv",
+      "value": 0.5118,
+      "value_rock": 0.593,
+      "value_soil": 0.5118,
+      "units": "cm/s",
+      "ln_tau": 0.4469,
+      "ln_phi": 0.6347,
+      "ln_sigma": 0.7762,
+      "ln_sigma_rock": 0.7752,
+      "ln_sigma_soil": 0.7752,
+      "ln_bias": -0.0395,
+      "ln_bias_sigma": 0.0752
+     },
+     {
+      "name": "mmi",
+      "value": 3.7802,
+      "value_rock": 3.8884,
+      "value_soil": 3.7802,
+      "units": "intensity",
+      "tau": 0.3207,
+      "phi": 0.4796,
+      "sigma": 0.5769,
+      "sigma_rock": 0.6004,
+      "sigma_soil": 0.5762,
+      "bias": -0.0185,
+      "bias_sigma": 0.0472
+     }
+    ],
+    "mmi_from_pgm": [
+     {
+      "name": "sa(0.3)",
+      "value": 2.66,
+      "sigma": 0.14,
+      "flag": "0"
+     },
+     {
+      "name": "pga",
+      "value": 2.32,
+      "sigma": 0.16,
+      "flag": "0"
+     },
+     {
+      "name": "sa(3.0)",
+      "value": 4.07,
+      "sigma": 0.14,
+      "flag": "0"
+     },
+     {
+      "name": "sa(1.0)",
+      "value": 3.68,
+      "sigma": 0.14,
+      "flag": "0"
+     },
+     {
+      "name": "pgv",
+      "value": 3.32,
+      "sigma": 0.15,
+      "flag": "0"
+     }
+    ],
+    "distances": {
+     "repi": 85.141,
+     "rhypo": 85.595,
+     "rjb": 85.141,
+     "rrup": 85.595
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     14.0232,
+     38.037
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "IT.ISNL",
+   "properties": {
+    "code": "ISNL",
+    "name": "Isnello",
+    "refid": null,
+    "instrumentType": "UNK",
+    "source": "Italian Strong Motion Network (RAN)",
+    "network": "IT",
+    "commType": "UNK",
+    "location": "",
+    "intensity": 3.6,
+    "intensity_flag": "",
+    "intensity_stddev": 0.15,
+    "pga": 0.6616,
+    "pgv": 0.3908,
+    "distance": 95.972,
+    "elev": null,
+    "vs30": 581.79,
+    "channels": [
+     {
+      "name": "--.HNE",
+      "amplitudes": [
+       {
+        "name": "pga",
+        "value": 0.6616,
+        "units": "%g",
+        "flag": "0",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "pgv",
+        "value": 0.3908,
+        "units": "cm/s",
+        "flag": "0",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "sa(0.3)",
+        "value": 2.6066,
+        "units": "%g",
+        "flag": "0",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "sa(1.0)",
+        "value": 0.4732,
+        "units": "%g",
+        "flag": "0",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "sa(3.0)",
+        "value": 0.076,
+        "units": "%g",
+        "flag": "0",
+        "ln_sigma": 0.0
+       }
+      ]
+     },
+     {
+      "name": "--.HNN",
+      "amplitudes": [
+       {
+        "name": "pga",
+        "value": 0.4042,
+        "units": "%g",
+        "flag": "0",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "pgv",
+        "value": 0.293,
+        "units": "cm/s",
+        "flag": "0",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "sa(0.3)",
+        "value": 0.9532,
+        "units": "%g",
+        "flag": "0",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "sa(1.0)",
+        "value": 0.6129,
+        "units": "%g",
+        "flag": "0",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "sa(3.0)",
+        "value": 0.0907,
+        "units": "%g",
+        "flag": "0",
+        "ln_sigma": 0.0
+       }
+      ]
+     },
+     {
+      "name": "--.HNZ",
+      "amplitudes": [
+       {
+        "name": "pga",
+        "value": 0.3182,
+        "units": "%g",
+        "flag": "0",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "pgv",
+        "value": 0.1874,
+        "units": "cm/s",
+        "flag": "0",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "sa(0.3)",
+        "value": 0.6292,
+        "units": "%g",
+        "flag": "0",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "sa(1.0)",
+        "value": 0.2785,
+        "units": "%g",
+        "flag": "0",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "sa(3.0)",
+        "value": 0.0677,
+        "units": "%g",
+        "flag": "0",
+        "ln_sigma": 0.0
+       }
+      ]
+     }
+    ],
+    "station_type": "seismic",
+    "nresp": "null",
+    "predictions": [
+     {
+      "name": "sa(0.3)",
+      "value": 1.3433,
+      "value_rock": 1.4831,
+      "value_soil": 1.3433,
+      "units": "%g",
+      "ln_tau": 0.5023,
+      "ln_phi": 0.6822,
+      "ln_sigma": 0.8471,
+      "ln_sigma_rock": 0.8476,
+      "ln_sigma_soil": 0.8476,
+      "ln_bias": -0.0169,
+      "ln_bias_sigma": 0.0664
+     },
+     {
+      "name": "pga",
+      "value": 0.5749,
+      "value_rock": 0.688,
+      "value_soil": 0.5749,
+      "units": "%g",
+      "ln_tau": 0.3963,
+      "ln_phi": 0.6783,
+      "ln_sigma": 0.7856,
+      "ln_sigma_rock": 0.7852,
+      "ln_sigma_soil": 0.7852,
+      "ln_bias": -0.0223,
+      "ln_bias_sigma": 0.0732
+     },
+     {
+      "name": "sa(3.0)",
+      "value": 0.0727,
+      "value_rock": 0.0922,
+      "value_soil": 0.0727,
+      "units": "%g",
+      "ln_tau": 0.4643,
+      "ln_phi": 0.722,
+      "ln_sigma": 0.8584,
+      "ln_sigma_rock": 0.8575,
+      "ln_sigma_soil": 0.8575,
+      "ln_bias": 0.0034,
+      "ln_bias_sigma": 0.1104
+     },
+     {
+      "name": "sa(1.0)",
+      "value": 0.5305,
+      "value_rock": 0.685,
+      "value_soil": 0.5305,
+      "units": "%g",
+      "ln_tau": 0.5113,
+      "ln_phi": 0.6669,
+      "ln_sigma": 0.8403,
+      "ln_sigma_rock": 0.841,
+      "ln_sigma_soil": 0.841,
+      "ln_bias": -0.0062,
+      "ln_bias_sigma": 0.0884
+     },
+     {
+      "name": "pgv",
+      "value": 0.4346,
+      "value_rock": 0.5036,
+      "value_soil": 0.4346,
+      "units": "cm/s",
+      "ln_tau": 0.4469,
+      "ln_phi": 0.6346,
+      "ln_sigma": 0.7761,
+      "ln_sigma_rock": 0.7751,
+      "ln_sigma_soil": 0.7751,
+      "ln_bias": -0.0395,
+      "ln_bias_sigma": 0.0752
+     },
+     {
+      "name": "mmi",
+      "value": 3.6659,
+      "value_rock": 3.7687,
+      "value_soil": 3.6659,
+      "units": "intensity",
+      "tau": 0.3047,
+      "phi": 0.458,
+      "sigma": 0.5501,
+      "sigma_rock": 0.5735,
+      "sigma_soil": 0.5494,
+      "bias": -0.0176,
+      "bias_sigma": 0.0449
+     }
+    ],
+    "mmi_from_pgm": [
+     {
+      "name": "sa(0.3)",
+      "value": 4.12,
+      "sigma": 0.14,
+      "flag": "0"
+     },
+     {
+      "name": "pga",
+      "value": 3.58,
+      "sigma": 0.16,
+      "flag": "0"
+     },
+     {
+      "name": "sa(3.0)",
+      "value": 3.96,
+      "sigma": 0.14,
+      "flag": "0"
+     },
+     {
+      "name": "sa(1.0)",
+      "value": 4.02,
+      "sigma": 0.14,
+      "flag": "0"
+     },
+     {
+      "name": "pgv",
+      "value": 3.59,
+      "sigma": 0.15,
+      "flag": "0"
+     }
+    ],
+    "distances": {
+     "repi": 95.568,
+     "rhypo": 95.972,
+     "rjb": 95.568,
+     "rrup": 95.972
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     14.0061,
+     37.9442
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "IV.STRE",
+   "properties": {
+    "code": "STRE",
+    "name": "STRE",
+    "refid": null,
+    "instrumentType": "UNK",
+    "source": "Italian National Seismic Network",
+    "network": "IV",
+    "commType": "UNK",
+    "location": "",
+    "intensity": "null",
+    "intensity_flag": "",
+    "intensity_stddev": "null",
+    "pga": "null",
+    "pgv": "null",
+    "distance": 90.867,
+    "elev": null,
+    "vs30": 603.0,
+    "channels": [
+     {
+      "name": "--.HHZ",
+      "amplitudes": [
+       {
+        "name": "pga",
+        "value": 0.5989,
+        "units": "%g",
+        "flag": "Outlier",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "pgv",
+        "value": 0.2212,
+        "units": "cm/s",
+        "flag": "Outlier",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "sa(0.3)",
+        "value": 1.2398,
+        "units": "%g",
+        "flag": "Outlier",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "sa(1.0)",
+        "value": 0.1416,
+        "units": "%g",
+        "flag": "Outlier",
+        "ln_sigma": 0.0
+       },
+       {
+        "name": "sa(3.0)",
+        "value": 0.089,
+        "units": "%g",
+        "flag": "Outlier",
+        "ln_sigma": 0.0
+       }
+      ]
+     }
+    ],
+    "station_type": "seismic",
+    "nresp": "null",
+    "predictions": [
+     {
+      "name": "sa(0.3)",
+      "value": 1.4732,
+      "value_rock": 1.6265,
+      "value_soil": 1.4732,
+      "units": "%g",
+      "ln_tau": 0.5024,
+      "ln_phi": 0.6824,
+      "ln_sigma": 0.8474,
+      "ln_sigma_rock": 0.8478,
+      "ln_sigma_soil": 0.8478,
+      "ln_bias": -0.0169,
+      "ln_bias_sigma": 0.0664
+     },
+     {
+      "name": "pga",
+      "value": 0.631,
+      "value_rock": 0.7551,
+      "value_soil": 0.631,
+      "units": "%g",
+      "ln_tau": 0.3965,
+      "ln_phi": 0.6785,
+      "ln_sigma": 0.7859,
+      "ln_sigma_rock": 0.7855,
+      "ln_sigma_soil": 0.7855,
+      "ln_bias": -0.0223,
+      "ln_bias_sigma": 0.0732
+     },
+     {
+      "name": "sa(3.0)",
+      "value": 0.076,
+      "value_rock": 0.0964,
+      "value_soil": 0.076,
+      "units": "%g",
+      "ln_tau": 0.4643,
+      "ln_phi": 0.722,
+      "ln_sigma": 0.8584,
+      "ln_sigma_rock": 0.8575,
+      "ln_sigma_soil": 0.8575,
+      "ln_bias": 0.0034,
+      "ln_bias_sigma": 0.1104
+     },
+     {
+      "name": "sa(1.0)",
+      "value": 0.5625,
+      "value_rock": 0.7263,
+      "value_soil": 0.5625,
+      "units": "%g",
+      "ln_tau": 0.5113,
+      "ln_phi": 0.667,
+      "ln_sigma": 0.8404,
+      "ln_sigma_rock": 0.8412,
+      "ln_sigma_soil": 0.8412,
+      "ln_bias": -0.0062,
+      "ln_bias_sigma": 0.0884
+     },
+     {
+      "name": "pgv",
+      "value": 0.4671,
+      "value_rock": 0.5413,
+      "value_soil": 0.4671,
+      "units": "cm/s",
+      "ln_tau": 0.4469,
+      "ln_phi": 0.6347,
+      "ln_sigma": 0.7763,
+      "ln_sigma_rock": 0.7752,
+      "ln_sigma_soil": 0.7752,
+      "ln_bias": -0.0395,
+      "ln_bias_sigma": 0.0752
+     },
+     {
+      "name": "mmi",
+      "value": 3.7157,
+      "value_rock": 3.8209,
+      "value_soil": 3.7157,
+      "units": "intensity",
+      "tau": 0.3119,
+      "phi": 0.4676,
+      "sigma": 0.5621,
+      "sigma_rock": 0.5855,
+      "sigma_soil": 0.5613,
+      "bias": -0.018,
+      "bias_sigma": 0.0459
+     }
+    ],
+    "mmi_from_pgm": [
+     {
+      "name": "sa(0.3)",
+      "value": null,
+      "sigma": null,
+      "flag": "0"
+     },
+     {
+      "name": "pga",
+      "value": null,
+      "sigma": null,
+      "flag": "0"
+     },
+     {
+      "name": "sa(3.0)",
+      "value": null,
+      "sigma": null,
+      "flag": "0"
+     },
+     {
+      "name": "sa(1.0)",
+      "value": null,
+      "sigma": null,
+      "flag": "0"
+     },
+     {
+      "name": "pgv",
+      "value": null,
+      "sigma": null,
+      "flag": "0"
+     }
+    ],
+    "distances": {
+     "repi": 90.44,
+     "rhypo": 90.867,
+     "rjb": 90.44,
+     "rrup": 90.867
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     15.215261,
+     38.802415
+    ]
+   }
+  }
+ ],
+ "metadata": {
+  "eventid": "47606532"
+ }
+}

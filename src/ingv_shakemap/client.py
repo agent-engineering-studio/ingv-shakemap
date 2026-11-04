@@ -20,6 +20,7 @@ What the services answer, and what you get back:
 from __future__ import annotations
 
 import asyncio
+import json
 from collections.abc import Awaitable, Callable
 from datetime import datetime
 from types import TracebackType
@@ -36,9 +37,10 @@ from ingv_shakemap.events import (
     Event,
     event_query,
     parse_events,
-    shakemap_grid_url,
+    shakemap_product_url,
 )
 from ingv_shakemap.grid import ShakeGrid, parse_grid
+from ingv_shakemap.products import ShakeMapInfo, Station, parse_info, parse_stations
 
 Send = Callable[..., Awaitable[httpx.Response]]
 _RETRY_STATUS = frozenset({429, 500, 502, 503, 504})
@@ -96,8 +98,12 @@ class IngvClient:
         min_magnitude: float | None = None,
         max_depth_km: float | None = None,
         limit: int | None = None,
+        updated_after: datetime | None = None,
     ) -> list[Event]:
-        """The earthquakes in ``bbox`` between ``start`` and ``end``, newest first."""
+        """The earthquakes in ``bbox`` between ``start`` and ``end``, newest first.
+
+        With ``updated_after``, only those created or revised after it.
+        """
         params = event_query(
             start,
             end,
@@ -105,6 +111,7 @@ class IngvClient:
             min_magnitude=min_magnitude,
             max_depth_km=max_depth_km,
             limit=limit,
+            updated_after=updated_after,
         )
         response = await self._send("GET", self._event_url, params=params)
         # The error first: a 5xx with no body is not a window with no earthquakes.
@@ -118,22 +125,62 @@ class IngvClient:
             raise IngvError("FDSN event service: not JSON") from exc
         return parse_events(payload)
 
-    async def shakemap_xml(self, event_id: str | int) -> bytes | None:
-        """The raw ``grid.xml`` of an event; ``None`` if INGV published no ShakeMap."""
-        url = shakemap_grid_url(event_id, base=self._shakemap_base)
+    async def product(self, event_id: str | int, name: str) -> bytes | None:
+        """One file of an event's ShakeMap, raw; ``None`` if INGV published none.
+
+        ``name`` is ``grid.xml``, ``uncertainty.xml``, ``info.json``,
+        ``stationlist.json`` or any other file of the map's products.
+        """
+        url = shakemap_product_url(event_id, name, base=self._shakemap_base)
         response = await self._send("GET", url)
         if response.status_code == 404:
             return None
         if response.status_code >= 400:
-            raise IngvError(f"ShakeMap {event_id}: HTTP {response.status_code}")
+            raise IngvError(f"ShakeMap {event_id} {name}: HTTP {response.status_code}")
         return bytes(response.content)
+
+    async def shakemap_xml(self, event_id: str | int) -> bytes | None:
+        """The raw ``grid.xml`` of an event; ``None`` if INGV published no ShakeMap."""
+        return await self.product(event_id, "grid.xml")
 
     async def shakemap(self, event_id: str | int) -> ShakeGrid | None:
         """The ShakeMap of an event, parsed in a thread; ``None`` if there is none."""
-        xml = await self.shakemap_xml(event_id)
+        return await self._grid(event_id, "grid.xml")
+
+    async def uncertainty(self, event_id: str | int) -> ShakeGrid | None:
+        """The map's uncertainty (``STDPGA`` in ln g, ``STDPGV``, ``STDMMI``...) as a grid.
+
+        Low near the stations, high where the map is the model alone.
+        """
+        return await self._grid(event_id, "uncertainty.xml")
+
+    async def info(self, event_id: str | int) -> ShakeMapInfo | None:
+        """The map's ``info.json``: its version and status for a few kB, not 12 MB."""
+        payload = await self._json(event_id, "info.json")
+        return None if payload is None else parse_info(payload)
+
+    async def stations(self, event_id: str | int) -> list[Station] | None:
+        """The stations behind the map, with what they recorded."""
+        payload = await self._json(event_id, "stationlist.json")
+        return None if payload is None else parse_stations(payload)
+
+    async def _grid(self, event_id: str | int, name: str) -> ShakeGrid | None:
+        xml = await self.product(event_id, name)
         if xml is None:
             return None
         return await asyncio.to_thread(parse_grid, xml)
+
+    async def _json(self, event_id: str | int, name: str) -> dict[str, Any] | None:
+        content = await self.product(event_id, name)
+        if content is None:
+            return None
+        try:
+            payload = json.loads(content)
+        except ValueError as exc:
+            raise IngvError(f"ShakeMap {event_id} {name}: not JSON") from exc
+        if not isinstance(payload, dict):
+            raise IngvError(f"ShakeMap {event_id} {name}: not a JSON object")
+        return payload
 
     async def _send(self, method: str, url: str, **kwargs: Any) -> httpx.Response:
         if self._send_hook is not None:

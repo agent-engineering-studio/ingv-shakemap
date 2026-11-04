@@ -32,7 +32,7 @@ import re
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
-from typing import Any, Final
+from typing import Any, Final, Literal
 
 import numpy as np
 import numpy.typing as npt
@@ -129,18 +129,73 @@ class ShakeGrid:
         value = self.value_at(name, longitude, latitude)
         if value is None:
             return None
-        units = self.fields[name].units
-        if units in PERCENT_G:
-            return value / 100.0
-        if units == "g":
-            return value
-        raise GridError(f"{name} in {units!r}: expected percent of g or g")
+        return value / self._g_divisor(name)
 
     def column(self, name: str) -> npt.NDArray[np.float64]:
         """Column ``name`` as an ``(nlat, nlon)`` array, north row first, native unit."""
         if name not in self.fields:
             raise GridError(f"no {name!r} column; the grid has {', '.join(self.fields)}")
         return self.values[:, :, self.fields[name].index]
+
+    def sample(
+        self,
+        name: str,
+        longitudes: npt.ArrayLike,
+        latitudes: npt.ArrayLike,
+        *,
+        method: Literal["nearest", "bilinear"] = "nearest",
+    ) -> npt.NDArray[np.float64]:
+        """Column ``name`` at many positions at once, in its native unit.
+
+        ``nearest`` gives exactly what :meth:`value_at` gives, point by point
+        (ties round half to even, as Python's ``round``). ``bilinear``
+        interpolates between the four surrounding grid points and is defined
+        only inside :attr:`bbox`. Positions outside the grid are ``NaN``.
+        """
+        grid = self.column(name)
+        lon = np.asarray(longitudes, dtype=float)
+        lat = np.asarray(latitudes, dtype=float)
+        lon, lat = np.broadcast_arrays(lon, lat)
+        x = (lon - self.lon_min) / self.lon_step
+        y = (self.lat_max - lat) / self.lat_step
+        out = np.full(lon.shape, np.nan)
+        if method == "nearest":
+            col, row = np.rint(x), np.rint(y)
+            inside = (col >= 0) & (col < self.nlon) & (row >= 0) & (row < self.nlat)
+            out[inside] = grid[row[inside].astype(int), col[inside].astype(int)]
+            return out
+        if method != "bilinear":
+            raise GridError(f"unknown method {method!r}: nearest or bilinear")
+        eps = 1e-9
+        inside = (x >= -eps) & (x <= self.nlon - 1 + eps) & (y >= -eps) & (y <= self.nlat - 1 + eps)
+        xi, yi = x[inside], y[inside]
+        c0 = np.clip(np.floor(xi), 0, self.nlon - 2).astype(int)
+        r0 = np.clip(np.floor(yi), 0, self.nlat - 2).astype(int)
+        tx = np.clip(xi - c0, 0.0, 1.0)
+        ty = np.clip(yi - r0, 0.0, 1.0)
+        top = grid[r0, c0] * (1 - tx) + grid[r0, c0 + 1] * tx
+        bottom = grid[r0 + 1, c0] * (1 - tx) + grid[r0 + 1, c0 + 1] * tx
+        out[inside] = top * (1 - ty) + bottom * ty
+        return out
+
+    def sample_g(
+        self,
+        name: str,
+        longitudes: npt.ArrayLike,
+        latitudes: npt.ArrayLike,
+        *,
+        method: Literal["nearest", "bilinear"] = "nearest",
+    ) -> npt.NDArray[np.float64]:
+        """An acceleration column (``PGA``, ``PSA03``...) at many positions, in **g**."""
+        return self.sample(name, longitudes, latitudes, method=method) / self._g_divisor(name)
+
+    def _g_divisor(self, name: str) -> float:
+        units = self.fields[name].units
+        if units in PERCENT_G:
+            return 100.0
+        if units == "g":
+            return 1.0
+        raise GridError(f"{name} in {units!r}: expected percent of g or g")
 
 
 def _float(value: str | None) -> float | None:

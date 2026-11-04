@@ -11,8 +11,17 @@ from ingv_shakemap.events import (
     event_query,
     parse_events,
     shakemap_grid_url,
+    shakemap_product_url,
 )
 from ingv_shakemap.grid import GridEvent, GridField, ShakeGrid, parse_grid
+from ingv_shakemap.products import (
+    GroundMotionSummary,
+    MapRun,
+    ShakeMapInfo,
+    Station,
+    parse_info,
+    parse_stations,
+)
 
 __version__ = version("ingv-shakemap")
 
@@ -23,12 +32,19 @@ __all__ = [
     "GridError",
     "GridEvent",
     "GridField",
+    "GroundMotionSummary",
     "IngvClient",
     "IngvError",
+    "MapRun",
     "ShakeGrid",
+    "ShakeMapInfo",
+    "Station",
     "__version__",
     "event_query",
     "parse_events",
     "parse_grid",
+    "parse_info",
+    "parse_stations",
     "shakemap_grid_url",
+    "shakemap_product_url",
 ]
