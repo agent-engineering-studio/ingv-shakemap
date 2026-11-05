@@ -11,3 +11,7 @@ htmlcov/
 
 # mkdocs
 site/
+
+# Dati di prova scaricati a mano (inventari CEDIT): non si versionano.
+data-test/
+.DS_Store
