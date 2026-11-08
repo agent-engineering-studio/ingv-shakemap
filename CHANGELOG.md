@@ -9,7 +9,8 @@ All notable changes to this project are documented here. The format follows
 ### Changed
 
 - Documentation site built with [Zensical](https://zensical.org) instead of
-  MkDocs Material; it reads the existing `mkdocs.yml` unchanged.
+  MkDocs Material; its configuration moved from `mkdocs.yml` to
+  `zensical.toml`.
 
 ## [0.2.0] - 2026-11-04
 
