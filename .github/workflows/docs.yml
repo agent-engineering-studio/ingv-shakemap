@@ -1,4 +1,4 @@
-# The documentation site (Zensical, from mkdocs.yml): built on every pull request (a broken page fails
+# The documentation site (Zensical, from zensical.toml): built on every pull request (a broken page fails
 # the check), published to GitHub Pages from main. Pages must use "GitHub
 # Actions" as its source (Settings > Pages), once.
 name: docs
