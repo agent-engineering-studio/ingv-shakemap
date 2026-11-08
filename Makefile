@@ -20,4 +20,4 @@ build:
 	uv build
 
 docs:
-	uv run --group docs mkdocs build --strict
+	uv run --group docs zensical build --strict
