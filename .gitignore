@@ -9,7 +9,7 @@ htmlcov/
 .pytest_cache/
 .ruff_cache/
 
-# mkdocs
+# zensical
 site/
 
 # Dati di prova scaricati a mano (inventari CEDIT): non si versionano.

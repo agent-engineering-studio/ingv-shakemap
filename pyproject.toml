@@ -42,7 +42,7 @@ dev = [
 ]
 
 docs = [
-    "mkdocs-material>=9.5",
+    "zensical>=0.1",
     "mkdocstrings[python]>=0.26",
     "matplotlib>=3.8",
 ]
